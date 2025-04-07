@@ -52,13 +52,13 @@ exports.createPayment = async function (req, res, next) {
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                    user: 'pipaliyayakshat2024.katargam@gmail.com',
-                    pass: 'ghswudkgrjiuoanf'
+                    user: process.env.Email,
+                    pass: process.env.Password
                 }
             });
 
             const mailOptions = {
-                from: 'pipaliyayakshat2024.katargam@gmail.com',
+                from: process.env.Email,
                 to: user.email,
                 subject: 'Payment Confirmation',
                 text: `Dear ${user.firstname} ${user.lastname},\n\nYour payment has been successfully processed.\nTotal Amount: ₹${totalPrice}\n\nThank you for your payment!`

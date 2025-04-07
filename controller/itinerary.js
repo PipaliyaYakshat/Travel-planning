@@ -1,34 +1,54 @@
 let IM = require('../model/itinerary')
 let DM = require('../model/destination')
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET
+});
 
 exports.itineraryCreate = async function (req, res, next) {
     try {
-        const { destinationId } = req.body
-        
-        let destination = await DM.findById(destinationId)
+        const { destinationId, detail, packagePrice } = req.body;
+
+
+        let destination = await DM.findById(destinationId);
         if (!destination) {
             throw new Error("Destination Not Found");
         }
-        
-        const data = req.body
-        if (req.files && req.files.length > 0) {
-            const fileNames = req.files.map(file => file.filename);
-            data.Images = fileNames;
-        }
 
-        let itineraryData = await IM.create(req.body)
+        let imageUrls = [];
+        if (req.files && req.files.length > 0) {
+            const uploadPromises = req.files.map(async (file) => {
+                const result = await cloudinary.uploader.upload(file.path, { folder: 'itineraries' });
+                fs.unlinkSync(file.path);
+                return result.secure_url;
+            });
+
+            imageUrls = await Promise.all(uploadPromises);
+        }
+        let itineraryData = await IM.create({
+            destinationId,
+            detail,
+            Images: imageUrls,
+            packagePrice
+        });
+
         res.status(201).json({
             status: 'Success',
-            message: 'Itinerary Create Successfully',
+            message: 'Itinerary Created Successfully',
             data: itineraryData
-        })
+        });
     } catch (error) {
         res.status(404).json({
             status: 'Fail',
             message: error.message
-        })
+        });
     }
-}
+};
+
 
 exports.itineraryFindAll = async function (req, res, next) {
     try {

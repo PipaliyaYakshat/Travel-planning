@@ -4,15 +4,17 @@ let IC = require('../controller/itinerary')
 const multer = require('multer');
 const path = require('path');
 
+const fs = require('fs');
+const dir = './public/images';
+if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/images');
-    },
-    filename: function (req, file, cb) {
-        const fileExtension = path.extname(file.originalname);
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + fileExtension);
-    }
+  destination: (req, file, cb) => cb(null, './public/images'),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    const uniqueName = `${file.fieldname}-${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
+    cb(null, uniqueName);
+  }
 });
 
 const upload = multer({ storage: storage });
