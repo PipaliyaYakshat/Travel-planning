@@ -7,6 +7,11 @@ let itinerarySchema = new Schema({
         ref: 'destination',
         required: [true, 'Please Enter Destination Id']
     },
+    PlaceName: {
+        type: String,
+        trim: true,
+        required: [true, 'Please Enter place Name']
+    },
     detail: {
         type: [String],
         trim: true,
@@ -14,7 +19,7 @@ let itinerarySchema = new Schema({
     },
     Images: {
         type: [String],
-        required: true   
+        required: true
     },
     packagePrice: {
         type: Number,

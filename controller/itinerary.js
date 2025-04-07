@@ -11,7 +11,7 @@ cloudinary.config({
 
 exports.itineraryCreate = async function (req, res, next) {
     try {
-        const { destinationId, detail, packagePrice } = req.body;
+        const { destinationId, detail, packagePrice ,PlaceName} = req.body;
 
 
         let destination = await DM.findById(destinationId);
@@ -33,7 +33,8 @@ exports.itineraryCreate = async function (req, res, next) {
             destinationId,
             detail,
             Images: imageUrls,
-            packagePrice
+            packagePrice,
+            PlaceName
         });
 
         res.status(201).json({
@@ -126,3 +127,29 @@ exports.itineraryUpdate = async function (req, res, next) {
         })
     }
 }
+
+exports.itinerarysearch = async (req, res) => {
+    try {
+        let searchQuery = req.query.query?.trim();
+        let itinerariesdata;
+
+        if (searchQuery) {
+            itinerariesdata = await IM.find({
+                PlaceName: { $regex: searchQuery, $options: 'i' }
+            });
+        } else {
+            itinerariesdata = await IM.find();
+        }
+
+        res.status(200).json({
+            status: "Success",
+            message: "Itineraries fetched successfully",
+            data: itinerariesdata
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: "Fail",
+            message: error.message
+        });
+    }
+};
