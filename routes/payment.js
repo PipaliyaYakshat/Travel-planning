@@ -8,7 +8,7 @@ router.post('/',PC.createPayment)
 router.get('/',PC.viewAllPayments)
 router.get('/:id', PC.viweOnePayment);
 router.delete('/:id', PC.deletePayment);
-router.put('/:id', PC.updatePayment);
+router.patch('/:id', PC.updatePayment);
 
 
 module.exports = router;

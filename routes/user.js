@@ -8,7 +8,7 @@ let middleware = require('../middelware/jwt')
 router.post('/', UC.createUser);
 router.post('/login', UC.loginUser)
 router.get('/', middleware.Auth, UC.getUsers)
-router.delete('/:id', middleware.Auth, UC.deleteUser)
-router.patch('/:id', middleware.Auth, UC.updateUser)
+router.delete('/:id', UC.deleteUser)
+router.patch('/:id', UC.updateUser)
 
 module.exports = router;

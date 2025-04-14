@@ -14,6 +14,8 @@ var activityRouter = require('./routes/activity');
 var bookingRouter = require('./routes/booking');
 var paymentRouter = require('./routes/payment');
 var feedbackRouter = require('./routes/feedback');
+var imageRouter = require('./routes/images');
+var contactRouter = require('./routes/contact');
 
 var mongoose = require('mongoose')
 mongoose.connect(process.env.MD_URL)
@@ -48,6 +50,8 @@ app.use('/activity', activityRouter);
 app.use('/booking', bookingRouter);
 app.use('/payment', paymentRouter);
 app.use('/feedback', feedbackRouter);
+app.use('/images', imageRouter);
+app.use('/contact', contactRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

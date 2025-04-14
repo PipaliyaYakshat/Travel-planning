@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 let IC = require('../controller/itinerary')
+const middelware = require('../middelware/jwt')
 const multer = require('multer');
 const path = require('path');
 
@@ -18,11 +19,11 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-router.post('/', upload.array('Images', 100), IC.itineraryCreate)
+router.post('/', upload.array('Images', 100),middelware.Auth, IC.itineraryCreate)
 router.get('/', IC.itineraryFindAll)
 router.get('/serach', IC.itinerarysearch)
 router.get('/:id', IC.itineraryFindOne)
-router.delete('/:id', IC.itineraryDelete)
-router.patch('/:id', IC.itineraryUpdate)
+router.delete('/:id',middelware.Auth, IC.itineraryDelete)
+router.patch('/:id', middelware.Auth,IC.itineraryUpdate)
 
 module.exports = router;

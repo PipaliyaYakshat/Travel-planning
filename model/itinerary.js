@@ -20,11 +20,6 @@ let itinerarySchema = new Schema({
     Images: {
         type: [String],
         required: true
-    },
-    packagePrice: {
-        type: Number,
-        trim: true,
-        required: [true, 'Please Enter Package Price']
     }
 })
 
