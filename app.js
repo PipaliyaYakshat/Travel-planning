@@ -17,16 +17,14 @@ var feedbackRouter = require('./routes/feedback');
 var imageRouter = require('./routes/images');
 var contactRouter = require('./routes/contact');
 
-var mongoose = require('mongoose')
-mongoose.connect(process.env.MD_URL)
-  .then(() => {
-    console.log("connection success");
+const mongoose = require('mongoose');
 
-  })
-  .catch((error) => {
-    console.log(error);
-
-  })
+mongoose.connect(process.env.MD_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error("MongoDB connection error:", err));
 
 var app = express();
 app.use(cors())

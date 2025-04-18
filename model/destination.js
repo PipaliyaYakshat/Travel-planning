@@ -3,7 +3,7 @@ let Schema = mongoose.Schema
 
 let destinationSchema = new Schema({
     subdestination: {
-        type: String,
+        type: [String],
         required: [true, ' Please Enter SubDestination'],
         trim: true,
     },
