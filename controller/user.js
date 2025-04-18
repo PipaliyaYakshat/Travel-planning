@@ -1,5 +1,6 @@
 const UM = require('../model/user');
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 exports.createUser = async (req, res) => {
     try {
 
