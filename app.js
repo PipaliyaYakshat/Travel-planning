@@ -19,12 +19,20 @@ var contactRouter = require('./routes/contact');
 
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MD_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("MongoDB connection error:", err));
+// mongoose.connect(process.env.MD_URL, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
+//   .then(() => console.log("MongoDB connected"))
+//   .catch(err => console.error("MongoDB connection error:", err));
+
+const run = async () => {
+  await mongoose.connect(process.env.MD_URL);
+  console.log("Connected to myDB");
+}
+
+run()
+.catch((err) => console.error(err))
 
 var app = express();
 app.use(cors())
