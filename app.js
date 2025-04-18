@@ -18,13 +18,7 @@ var imageRouter = require('./routes/images');
 var contactRouter = require('./routes/contact');
 
 var mongoose = require('mongoose')
-mongoose.connect(
-  'mongodb+srv://yakshatpipaliya:lOLmRBAcNvb6FPCl@travel-planning-api.awf1pjg.mongodb.net/Travel-Planning-API?retryWrites=true&w=majority&appName=Travel-Planning-API',
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-)
+mongoose.connect('mongodb+srv://yakshatpipaliya:lOLmRBAcNvb6FPCl@travel-planning-api.awf1pjg.mongodb.net/Travel-Planning-API?retryWrites=true&w=majority&appName=Travel-Planning-API')
   .then(() => {
     console.log("✅ MongoDB connection successful");
   })
