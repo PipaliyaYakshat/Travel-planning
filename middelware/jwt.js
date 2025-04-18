@@ -1,32 +1,26 @@
-const jwt = require('jsonwebtoken')
-const UM = require('../model/user')
-exports.Auth = async(req, res , next) => {
-    // console.log("Hello");
+exports.Auth = async (req, res, next) => {
     try {
-        const token = req.headers.authorization
-        // console.log(token);
+        const token = req.headers.authorization;
 
-        if(!token) throw new Error("Attach Token")
+        if (!token) throw new Error("Attach Token");
 
-        const tokenVerify = jwt.verify(token , process.env.Secure_key)
+        const tokenVerify = jwt.verify(token, process.env.Secure_key);
 
-        if(!tokenVerify) throw new Error("Invalid Token")
+        const userVerify = await UM.findById(tokenVerify.id);
+        if (!userVerify) throw new Error("Invalid User");
 
-        const userVerify = await UM.findById(tokenVerify.id)
-        if(!userVerify) throw new Error("Invalid User")
-
-            next()
-
+        next();
     } catch (error) {
-        res.status(404).json({
-            status : 'fail',
-            message : error.message
-        })
+        let message = error.message;
+
+        // Handle JWT token expiry
+        if (error.name === 'TokenExpiredError') {
+            message = 'Token Expired';
+        }
+
+        res.status(401).json({
+            status: 'fail',
+            message
+        });
     }
-
-
-}
-
-
-
-      
+};
