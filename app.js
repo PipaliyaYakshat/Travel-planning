@@ -18,22 +18,16 @@ var imageRouter = require('./routes/images');
 var contactRouter = require('./routes/contact');
 
 var mongoose = require('mongoose')
-const connectToDatabase = async () => {
-  try {
-    await mongoose.connect(process.env.MD_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('✅ MongoDB connected successfully');
-  } catch (error) {
-    console.error('❌ MongoDB connection failed:', error.message);
-    process.exit(1); // stop the app if DB is not connected
-  }
-};
-
-connectToDatabase();
-
-
+mongoose.connect(process.env.MD_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => {
+    console.log("✅ MongoDB connection successful");
+  })
+  .catch((error) => {
+    console.log("❌ MongoDB connection failed:", error.message);
+  });
 
 var app = express();
 app.use(cors())
