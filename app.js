@@ -21,13 +21,14 @@ var mongoose = require('mongoose')
 mongoose.connect(process.env.MD_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 200000 // Increase timeout to 20 seconds
 })
-.then(() => {
-  console.log("MongoDB connection success");
-})
-.catch((err) => {
-  console.error("MongoDB connection error:", err);
-});
+  .then(() => {
+    console.log("MongoDB connection success");
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+  });
 
 
 var app = express();
